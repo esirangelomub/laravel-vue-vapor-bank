@@ -72,7 +72,7 @@ export default {
     methods: {
         save () {
             const income = {
-                accounts_id: 7,
+                accounts_id: null,
                 status: 'PENDING',
                 deposit_value: this.deposit_value,
                 description: this.description,

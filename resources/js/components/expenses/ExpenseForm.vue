@@ -83,7 +83,7 @@ export default {
     methods: {
         save () {
             const expense = {
-                accounts_id: 7,
+                accounts_id: null,
                 expense_value: this.expense_value,
                 description: this.description,
                 created_at: this.created_at

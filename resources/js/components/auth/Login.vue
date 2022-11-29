@@ -72,16 +72,14 @@
 </template>
 
 <script>
+import axiosInstance from "../../plugins/axios";
+
 export default {
     data: () => ({
         valid: true,
         snackbar: false,
         message: '',
         message_type: 'blue',
-        name: '',
-        nameRules: [
-            v => !!v || 'Name is required',
-        ],
         email: '',
         emailRules: [
             v => !!v || 'Email is required',
@@ -93,10 +91,30 @@ export default {
     }),
     methods: {
         signIn() {
-            this.showSnackBar({
-                status: true,
-                message: "Login successful!"
-            });
+            this.$axios
+                .post('/token', {
+                    email: this.email,
+                    password: this.password
+                })
+                .then(response => {
+                    if (!response.data.data.token) {
+                        this.showSnackBar({
+                            status: false,
+                            message: "Unauthorised!"
+                        });
+                        return;
+                    }
+
+                    localStorage.setItem('access_token', JSON.stringify(response.data.data.token));
+                    this.showSnackBar({
+                        status: true,
+                        message: "Login successful!"
+                    });
+                    setTimeout(() => {
+                        this.$router.push({ name: 'home' })
+                    }, 500);
+                });
+
             setTimeout(() => {
                 this.$router.push({ name: 'home' })
             }, 1000);

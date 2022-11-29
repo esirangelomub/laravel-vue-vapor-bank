@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Throwable;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -73,6 +74,9 @@ class Handler extends ExceptionHandler
         }
         if ($e instanceof ValidationException) {
             $status = ResponseAlias::HTTP_BAD_REQUEST;
+        }
+        if ($e instanceof RouteNotFoundException) {
+            $status = ResponseAlias::HTTP_UNAUTHORIZED;
         }
         return $status;
     }

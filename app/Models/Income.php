@@ -56,4 +56,12 @@ class Income extends Model
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function setAccountsIdAttribute($value)
+    {
+        if (empty($value)) {
+            $value = auth()->user()->load(['account'])->account->id ?? null;
+        }
+        $this->attributes['accounts_id'] = $value;
+    }
 }

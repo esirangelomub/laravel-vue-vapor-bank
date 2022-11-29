@@ -3,10 +3,10 @@
         <v-list>
             <v-list-item
                 :title="'Incomes'"
-                :subtitle="total_incomes">
+                :subtitle="$filters.currency(total_incomes)">
                 <template v-slot:append>
                     <v-btn
-                        to="/incomes"
+                        to="/app/incomes"
                         color="grey-lighten-1"
                         icon="mdi-plus"
                         variant="text"></v-btn>
@@ -14,10 +14,10 @@
             </v-list-item>
             <v-list-item
                 :title="'Expenses'"
-                :subtitle="total_expenses">
+                :subtitle="$filters.currency(total_expenses)">
                 <template v-slot:append>
                     <v-btn
-                        to="/expenses"
+                        to="/app/expenses"
                         color="grey-lighten-1"
                         icon="mdi-plus"
                         variant="text"></v-btn>
@@ -29,9 +29,9 @@
             <v-list-item
                 v-for="transaction in transactions"
                 :title="transaction.name"
-                :subtitle="transaction.created_at">
+                :subtitle="$filters.formatDate(transaction.created_at)">
                 <template v-slot:append>
-                    {{transaction.value}}
+                    {{ $filters.currency(transaction.value) }}
                 </template>
             </v-list-item>
         </v-list>
@@ -39,29 +39,42 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     data: () => ({
-        total_incomes: 7000,
-        total_expenses: 2300,
-        transactions: [
-            {
-                name: 't-shirt',
-                created_at: '2022-01-01 10:20:00',
-                value: '$40,00',
-                type: 'expense'
-            },
-            {
-                name: 'Freelancer Work',
-                created_at: '2022-01-10 15:20:00',
-                value: '$3000,00',
-                type: 'income'
-            }
-        ]
+        total_incomes: 0,
+        total_expenses: 0,
+        transactions: []
     }),
-    computed: {
-        funds() {
-            return this.$store.getters.funds
-        }
+    mounted () {
+        axios
+            .all([
+                this.$axios.get('/income'),
+                this.$axios.get('/expense')
+            ])
+            .then(responses => {
+                let data = [];
+                responses.forEach(response => {
+                    response.data.data.forEach(item => {
+                        data.push({
+                            type: item.deposit_value ? 'income' : 'expense',
+                            name: item.description,
+                            created_at: item.created_at,
+                            value: item.deposit_value ? item.deposit_value : item.expense_value,
+                        })
+                        if (item.deposit_value) {
+                            this.total_incomes += parseFloat(item.deposit_value)
+                        }
+                        if (item.expense_value) {
+                            this.total_expenses += parseFloat(item.expense_value)
+                        }
+                    })
+                })
+                console.log(data)
+                this.transactions = data.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+            })
+
     }
 }
 </script>

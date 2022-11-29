@@ -71,7 +71,6 @@ export default {
                         }
                     })
                 })
-                console.log(data)
                 this.transactions = data.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
             })
 

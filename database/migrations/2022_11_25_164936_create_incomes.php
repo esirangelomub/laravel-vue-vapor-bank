@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('accounts_id');
+            $table->text('description');
             $table->decimal('deposit_value');
             $table->string('status', 10)->default(\Illuminate\Support\Facades\Config::get('constants.INCOMES_STATUS.PENDING'));
             $table->text('deposit_voucher_path');

@@ -25,7 +25,7 @@ class StoreExpenseRequest extends FormRequest
     {
         return [
             'accounts_id' => 'integer|exists:accounts,id',
-            'expense_value' => 'decimal:2',
+            'expense_value' => 'numeric',
             'description' => 'string',
         ];
     }

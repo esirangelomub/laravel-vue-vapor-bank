@@ -30,6 +30,7 @@ class IncomeControllerTest extends TestCase
     {
         $response = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'accounts_id' => $this->_createAccount(),
+            'description' => $this->faker()->realText,
             'deposit_value' => $this->faker()->randomNumber(2),
             'status' => Config::get('constants.INCOMES_STATUS.PENDING'),
             'deposit_voucher_path' => $this->faker()->imageUrl(),
@@ -46,6 +47,7 @@ class IncomeControllerTest extends TestCase
     {
         $income = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'accounts_id' => $this->_createAccount(),
+            'description' => $this->faker()->realText,
             'deposit_value' => $this->faker()->randomNumber(2),
             'status' => Config::get('constants.INCOMES_STATUS.PENDING'),
             'deposit_voucher_path' => $this->faker()->imageUrl(),
@@ -70,6 +72,7 @@ class IncomeControllerTest extends TestCase
     {
         $response = $this->withHeaders($this->defaultHeaders)->postJson('/api/v1/account', [
             "account_types_id" => $this->_getAccountId('constants.USER_TYPES.CUSTOMER'),
+            'description' => $this->faker()->realText,
             "name" => $this->faker()->name,
             "email" => $this->faker()->email,
             "password" => $this->faker()->password(8)

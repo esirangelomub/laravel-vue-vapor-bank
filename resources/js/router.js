@@ -4,28 +4,56 @@ import Incomes from "./components/incomes/Incomes.vue";
 import Expenses from "./components/expenses/Expenses.vue";
 import IncomesForm from "./components/incomes/IncomesForm.vue";
 import ExpenseForm from "./components/expenses/ExpenseForm.vue";
+import Auth from "./layout/Auth.vue";
+import Register from "./components/auth/Register.vue";
+import Login from "./components/auth/Login.vue";
+import Main from "./layout/Main.vue";
 
 const routes = [
     {
         path: "/",
-        component: Home,
+        redirect: "/auth/register",
+        component: Auth,
+        children: [
+            {
+                path: "/auth/register",
+                component: Register,
+            },
+            {
+                path: "/auth/login",
+                component: Login,
+            },
+        ],
     },
     {
-        path: "/expenses",
-        component: Expenses
+        path: "/app",
+        redirect: "/app/home",
+        component: Main,
+        children: [
+            {
+                path: "/app/home",
+                name: "home",
+                component: Home
+            },
+            {
+                path: "/app/expenses",
+                component: Expenses
+            },
+            {
+                path: "/app/incomes",
+                component: Incomes
+            },
+            {
+                path: "/incomes/create",
+                component: IncomesForm
+            },
+            {
+                path: "/expenses/create",
+                component: ExpenseForm
+            },
+        ]
     },
-    {
-        path: "/incomes",
-        component: Incomes
-    },
-    {
-        path: "/incomes/create",
-        component: IncomesForm
-    },
-    {
-        path: "/expenses/create",
-        component: ExpenseForm
-    },
+
     { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

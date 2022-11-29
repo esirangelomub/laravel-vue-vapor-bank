@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class AccountControllerTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker;
 
     protected string $url = '/api/v1/account';
     /**

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserControllerTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker;
 
     protected string $url = '/api/v1/user';
     /**

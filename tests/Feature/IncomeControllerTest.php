@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class IncomeControllerTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker;
 
     protected string $url = '/api/v1/income';
     /**
@@ -43,7 +43,7 @@ class IncomeControllerTest extends TestCase
      *
      * @return void
      */
-    public function testUpdateIncomeAdminApproveReturnOk(): void
+    public function testUpdateIncomeAdminAcceptedReturnOk(): void
     {
         $income = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'accounts_id' => $this->_createAccount(),
@@ -53,7 +53,27 @@ class IncomeControllerTest extends TestCase
             'deposit_voucher_path' => $this->faker()->imageUrl(),
         ]);
         $response = $this->withHeaders($this->defaultHeaders)->putJson($this->url . '/' . $income['data']['id'], [
-            'status' => Config::get('constants.INCOMES_STATUS.APPROVED'),
+            'status' => Config::get('constants.INCOMES_STATUS.ACCEPTED'),
+        ]);
+        $response->assertStatus(ResponseAlias::HTTP_OK);
+    }
+
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function testUpdateIncomeAdminRejectedReturnOk(): void
+    {
+        $income = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+            'accounts_id' => $this->_createAccount(),
+            'description' => $this->faker()->realText,
+            'deposit_value' => $this->faker()->randomNumber(2),
+            'status' => Config::get('constants.INCOMES_STATUS.PENDING'),
+            'deposit_voucher_path' => $this->faker()->imageUrl(),
+        ]);
+        $response = $this->withHeaders($this->defaultHeaders)->putJson($this->url . '/' . $income['data']['id'], [
+            'status' => Config::get('constants.INCOMES_STATUS.REJECTED'),
         ]);
         $response->assertStatus(ResponseAlias::HTTP_OK);
     }

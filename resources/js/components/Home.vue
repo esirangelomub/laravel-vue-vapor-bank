@@ -1,39 +1,57 @@
 <template>
     <div>
-        <v-list>
-            <v-list-item
+        <v-card width="full"
+                rounded="0"
+                color="blue"
+                class="text-white"
+                :title="'Balance'"
+                :subtitle="$filters.currency(total_incomes)">
+        </v-card>
+        <v-card width="full"
+                rounded="0"
+                class="bg-blue-lighten-4 text-blue"
                 :title="'Incomes'"
                 :subtitle="$filters.currency(total_incomes)">
-                <template v-slot:append>
-                    <v-btn
-                        to="/app/incomes"
-                        color="grey-lighten-1"
-                        icon="mdi-plus"
-                        variant="text"></v-btn>
-                </template>
-            </v-list-item>
-            <v-list-item
+
+            <template v-slot:append>
+                <div class="append-flex">
+                    <v-btn variant="plain" icon="mdi-plus" size="large" to="/app/incomes" flat></v-btn>
+                    <small>DEPOSIT A CHECK</small>
+                </div>
+            </template>
+        </v-card>
+        <v-card width="full"
+                rounded="0"
+                class="bg-blue-lighten-5 text-blue"
                 :title="'Expenses'"
                 :subtitle="$filters.currency(total_expenses)">
-                <template v-slot:append>
-                    <v-btn
-                        to="/app/expenses"
-                        color="grey-lighten-1"
-                        icon="mdi-plus"
-                        variant="text"></v-btn>
-                </template>
-            </v-list-item>
-        </v-list>
+
+            <template v-slot:append>
+                <div class="append-flex">
+                    <v-btn variant="plain" icon="mdi-plus" to="/app/expenses" flat></v-btn>
+                    <small>PURCHASE</small>
+                </div>
+            </template>
+        </v-card>
 
         <v-list>
-            <v-list-item
-                v-for="transaction in transactions"
-                :title="transaction.name"
-                :subtitle="$filters.formatDate(transaction.created_at)">
-                <template v-slot:append>
-                    {{ $filters.currency(transaction.value) }}
-                </template>
-            </v-list-item>
+            <v-list-subheader class="font-weight-medium text-blue mt-2 mb-2 text-uppercase">
+                Transactions
+            </v-list-subheader>
+            <template v-for="transaction in transactions">
+                <v-list-item
+                    :title="transaction.name"
+                    :subtitle="$filters.formatDate(transaction.created_at)"
+                    class="text-blue py-3">
+                    <template v-slot:append>
+                        <span class="font-weight-bold"
+                              :class="transaction.type === 'expense' ? 'text-red' : 'text-blue'">
+                                {{ $filters.currency(transaction.value) }}
+                        </span>
+                    </template>
+                </v-list-item>
+                <v-divider class="divider-light"></v-divider>
+            </template>
         </v-list>
     </div>
 </template>
@@ -79,5 +97,18 @@ export default {
 </script>
 
 <style scoped>
-
+    .text-red::before {
+        content: '-';
+    }
+    .append-flex {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 110px;
+        margin-top: -15px;
+    }
+    .append-flex small {
+        margin-top: -10px;
+        font-size: 70%
+    }
 </style>

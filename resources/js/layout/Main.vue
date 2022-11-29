@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <v-main>
-        <v-container fluid>
+        <v-container fluid class="pt-0 pl-0 pr-0">
             <router-view></router-view>
         </v-container>
     </v-main>

@@ -14,7 +14,7 @@ app.config.globalProperties.$axios = { ...axiosInstance }
 
 app.config.globalProperties.$filters = {
     currency(value) {
-        return '$ ' + value.toLocaleString()
+        return '$' + value.toLocaleString()
     },
     formatDate(dateString) {
         const date = new Date(dateString);

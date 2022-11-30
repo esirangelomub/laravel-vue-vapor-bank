@@ -50,7 +50,7 @@ class ExpenseController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(string $any, int $id): JsonResponse
     {
         if (app()->make('isAdmin')) {
             $expense = Expense::query()->findOrFail($id);
@@ -74,7 +74,7 @@ class ExpenseController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(StoreExpenseRequest $request, int $id): JsonResponse
+    public function update(StoreExpenseRequest $request, string $any, int $id): JsonResponse
     {
         $expense = Expense::query()->findOrFail($id);
 
@@ -93,7 +93,7 @@ class ExpenseController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $any, int $id): JsonResponse
     {
         $expense = Expense::query()->findOrFail($id);
 

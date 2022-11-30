@@ -121,7 +121,7 @@ export default {
                     localStorage.setItem('access_token', response.data.token);
                     this.showSnackBar(response.data)
                     setTimeout(() => {
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: !this.isAdmin ? 'home' : 'admin' })
                     }, 1000);
                 })
                 .catch(error => {

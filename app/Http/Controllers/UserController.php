@@ -47,7 +47,7 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(string $any, int $id): JsonResponse
     {
         $user = User::query()->findOrFail($id);
 
@@ -64,7 +64,7 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(StoreUserRequest $request, int $id): JsonResponse
+    public function update(StoreUserRequest $request, string $any, int $id): JsonResponse
     {
         $user = User::query()->findOrFail($id);
 
@@ -83,7 +83,7 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $any, int $id): JsonResponse
     {
         $user = User::query()->findOrFail($id);
 

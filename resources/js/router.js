@@ -8,6 +8,8 @@ import Auth from "./layout/Auth.vue";
 import Register from "./components/auth/Register.vue";
 import Login from "./components/auth/Login.vue";
 import Main from "./layout/Main.vue";
+import Admin from "./layout/Admin.vue";
+import Approve from "./components/admin/Approve.vue";
 
 const routes = [
     {
@@ -45,6 +47,10 @@ const routes = [
                 component: Incomes
             },
             {
+                path: "/app/incomes/approve",
+                component: Incomes
+            },
+            {
                 path: "/incomes/create",
                 component: IncomesForm
             },
@@ -54,7 +60,18 @@ const routes = [
             },
         ]
     },
-
+    {
+        path: "/admin",
+        redirect: "/admin/approve",
+        component: Admin,
+        children: [
+            {
+                path: "/admin/approve",
+                name: "approve",
+                component: Approve
+            }
+        ]
+    },
     { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

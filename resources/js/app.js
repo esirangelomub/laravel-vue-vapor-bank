@@ -11,7 +11,6 @@ const app = createApp(App)
 // AXIOS
 axiosInstance.interceptors.request.use(config => {
     config.headers.Authorization = 'Bearer ' + localStorage.getItem('access_token');
-    console.log(config)
     return config;
 })
 app.config.globalProperties.$axios = { ...axiosInstance }

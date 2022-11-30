@@ -54,7 +54,7 @@ class IncomeController extends Controller
      * @return JsonResponse
      * @throws BindingResolutionException
      */
-    public function show(int $id): JsonResponse
+    public function show(string $any, int $id): JsonResponse
     {
         if (app()->make('isAdmin')) {
             $income = Income::query()->findOrFail($id);
@@ -78,7 +78,7 @@ class IncomeController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(StoreIncomeRequest $request, int $id): JsonResponse
+    public function update(StoreIncomeRequest $request, string $any, int $id): JsonResponse
     {
         $income = Income::query()->findOrFail($id);
 
@@ -97,7 +97,7 @@ class IncomeController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $any, int $id): JsonResponse
     {
         $Income = Income::query()->findOrFail($id);
 

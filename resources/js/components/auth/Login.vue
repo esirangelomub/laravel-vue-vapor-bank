@@ -112,7 +112,7 @@ export default {
                         message: "Login successful!"
                     });
                     setTimeout(() => {
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: !this.isAdmin ? 'home' : 'approve' })
                     }, 500);
                 })
                 .catch(error => {

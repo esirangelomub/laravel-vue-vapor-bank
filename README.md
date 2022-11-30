@@ -26,6 +26,12 @@ Access the project folder
   cd laravel-vue-vapor-bank
 ```
 
+Copy .env.default to .env
+
+```bash
+  cp .env.default .env
+```
+
 Install dependencies
 
 ```bash

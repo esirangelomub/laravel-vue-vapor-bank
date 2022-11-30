@@ -1,49 +1,58 @@
 <template>
     <div>
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation>
-            <v-text-field
-                label="Amount"
-                placeholder="Amount"
-                v-model="expense_value"
-                :rules="expenseValueRules"
-                prepend-icon="mdi-vuetify"
-                clearable
-                variant="outlined">
-                <template v-slot:append>
-                    <span class="blue">USD</span>
-                </template>
-            </v-text-field>
+        <v-card width="full"
+                rounded="0"
+                class="bg-blue-lighten-3 text-white"
+                :title="'Balance'"
+                :subtitle="$filters.currency(balance)">
+        </v-card>
+        <v-card width="full"
+                height="full"
+                rounded="0"
+                class="box-shadow-none pt-10 px-2">
+            <v-card-text>
+                <v-form
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation>
+                    <v-text-field
+                        label="Amount"
+                        placeholder="Amount"
+                        v-model="expense_value"
+                        :rules="expenseValueRules"
+                        prepend-icon="mdi-currency-usd">
+                        <template v-slot:append>
+                            <span class="blue">USD</span>
+                        </template>
+                    </v-text-field>
 
-            <v-text-field
-                label="Date"
-                placeholder="Date"
-                v-model="created_at"
-                :rules="createdAtRules"
-                prepend-icon="mdi-vuetify"
-                clearable
-                variant="outlined">
-            </v-text-field>
+                    <v-text-field
+                        label="Date"
+                        placeholder="Date"
+                        v-model="created_at"
+                        :rules="createdAtRules"
+                        prepend-icon="mdi-calendar">
+                    </v-text-field>
 
-            <v-text-field
-                label="Description"
-                placeholder="Description"
-                v-model="description"
-                :rules="descriptionValueRules"
-                prepend-icon="mdi-vuetify"
-                clearable
-                variant="outlined">
-            </v-text-field>
-
+                    <v-text-field
+                        label="Description"
+                        placeholder="Description"
+                        v-model="description"
+                        :rules="descriptionValueRules"
+                        prepend-icon="mdi-text">
+                    </v-text-field>
+                </v-form>
+            </v-card-text>
+        </v-card>
+        <div class="form-button px-3">
             <v-btn
+                size="large"
                 block
                 color="blue"
                 @click="save()">
-                Add Purchase
+                ADD PURCHASE
             </v-btn>
-        </v-form>
+        </div>
     </div>
 
     <v-snackbar
@@ -80,6 +89,11 @@ export default {
             v => !!v || 'Description is required',
         ],
     }),
+    computed: {
+        balance() {
+            return 1234545
+        }
+    },
     methods: {
         save () {
             const expense = {
@@ -107,5 +121,12 @@ export default {
 </script>
 
 <style scoped>
-
+    .box-shadow-none {
+        box-shadow: none !important;
+    }
+    .form-button {
+        width: 100%;
+        position: absolute;
+        bottom: 10px;
+    }
 </style>

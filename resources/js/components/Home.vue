@@ -2,10 +2,9 @@
     <div>
         <v-card width="full"
                 rounded="0"
-                color="blue"
-                class="text-white"
+                class="bg-blue-lighten-3 text-white"
                 :title="'Balance'"
-                :subtitle="$filters.currency(total_incomes)">
+                :subtitle="$filters.currency(balance)">
         </v-card>
         <v-card width="full"
                 rounded="0"
@@ -65,6 +64,11 @@ export default {
         total_expenses: 0,
         transactions: []
     }),
+    computed: {
+        balance() {
+            return 1234545
+        }
+    },
     mounted () {
         axios
             .all([

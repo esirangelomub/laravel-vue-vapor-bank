@@ -1,8 +1,7 @@
 <template>
     <div>
         <v-app-bar
-            class="box-shadow-none"
-            color="blue"
+            class="box-shadow-none bg-blue-lighten-3 text-white"
             density="compact">
 
             <template v-slot:prepend>
@@ -25,15 +24,14 @@
                 </v-card-title>
                 <v-card-text>
                     <v-list density="compact" nav>
-                        <v-list-item prepend-icon="mdi-view-dashboard-outline" title="Home" value="home" to="home"></v-list-item>
+                        <v-list-item prepend-icon="mdi-view-dashboard-outline" title="Home" value="home" to="/app/home"></v-list-item>
 
                         <v-list-item prepend-icon="mdi-call-made" title="Incomes" value="users"
                                      to="/app/incomes"></v-list-item>
                         <v-list-item prepend-icon="mdi-call-received" title="Expenses" value="account"
                                      to="/app/expenses"></v-list-item>
                         <v-divider></v-divider>
-                        <v-list-item prepend-icon="mdi-logout" title="Logout" value="logout"
-                                     to="/auth/login"></v-list-item>
+                        <v-list-item prepend-icon="mdi-logout" title="Logout" value="logout" @click="logout()"></v-list-item>
                     </v-list>
                 </v-card-text>
             </v-card>
@@ -53,7 +51,14 @@ export default {
             return 'Home'
         }
     },
-    methods: {}
+    methods: {
+        logout() {
+            localStorage.removeItem('access_token');
+            setTimeout(() => {
+                this.$router.push({ name: 'login' })
+            }, 300);
+        }
+    }
 }
 </script>
 

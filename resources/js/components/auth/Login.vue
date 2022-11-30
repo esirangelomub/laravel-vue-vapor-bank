@@ -1,74 +1,65 @@
 <template>
-    <v-container>
-        <v-row justify="space-around">
-            <v-card width="400">
-                <v-img
-                    height="200"
-                    src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-                    cover
-                    class="text-white">
-                </v-img>
+    <h3 class="font-weight-medium text-blue mt-5 mb-5 text-uppercase w-100 text-center">
+        Login
+    </h3>
+    <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation>
 
-                <v-card-text>
-                    <v-form
-                        ref="form"
-                        v-model="valid"
-                        lazy-validation>
+        <v-text-field
+            color="blue"
+            label="Email"
+            placeholder="Email"
+            type="email"
+            v-model="email"
+            :rules="emailRules"
+            variant="outlined"
+            class="my-3">
+        </v-text-field>
 
-                        <v-text-field
-                            label="Email"
-                            placeholder="Email"
-                            type="email"
-                            v-model="email"
-                            :rules="emailRules"
-                            clearable
-                            variant="outlined">
-                        </v-text-field>
+        <v-text-field
+            color="blue"
+            label="Password"
+            placeholder="Password"
+            type="password"
+            v-model="password"
+            :rules="passwordRules"
+            variant="outlined"
+            class="my-3">
+        </v-text-field>
 
-                        <v-text-field
-                            label="Password"
-                            placeholder="Password"
-                            type="password"
-                            v-model="password"
-                            :rules="passwordRules"
-                            clearable
-                            variant="outlined">
-                        </v-text-field>
+        <v-btn
+            class="my-3"
+            block
+            color="blue"
+            @click="signIn()">
+            Login
+        </v-btn>
 
-                        <v-btn
-                            block
-                            color="blue"
-                            @click="signIn()">
-                            Sign In
-                        </v-btn>
+        <v-divider class="mt-10 mb-8"></v-divider>
 
-                        <v-divider class="mt-10 mb-8"></v-divider>
+        <v-btn variant="plain"
+               color="blue"
+               block
+               flat to="/auth/register">
+            Do not have an account?
+        </v-btn>
+    </v-form>
 
-                        <v-btn variant="plain"
-                               color="blue"
-                               block
-                               flat to="/auth/register">
-                            Do not have an account?
-                        </v-btn>
-                    </v-form>
-                </v-card-text>
+    <v-snackbar
+        v-model="snackbar">
+        {{ message }}
+        <template v-slot:actions>
+            <v-btn
+                :color="message_type"
+                variant="text"
+                @click="snackbar = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 
-                <v-snackbar
-                    v-model="snackbar">
-                    {{ message }}
-                    <template v-slot:actions>
-                        <v-btn
-                            :color="message_type"
-                            variant="text"
-                            @click="snackbar = false">
-                            Close
-                        </v-btn>
-                    </template>
-                </v-snackbar>
-
-            </v-card>
-        </v-row>
-    </v-container>
 </template>
 
 <script>
@@ -94,7 +85,8 @@ export default {
             this.$axios
                 .post('/token', {
                     email: this.email,
-                    password: this.password
+                    password: this.password,
+                    scope: 'customer-all'
                 })
                 .then(response => {
                     if (!response.data.data.token) {
@@ -105,7 +97,7 @@ export default {
                         return;
                     }
 
-                    localStorage.setItem('access_token', JSON.stringify(response.data.data.token));
+                    localStorage.setItem('access_token', response.data.data.token);
                     this.showSnackBar({
                         status: true,
                         message: "Login successful!"
@@ -113,11 +105,10 @@ export default {
                     setTimeout(() => {
                         this.$router.push({ name: 'home' })
                     }, 500);
+                })
+                .catch(error => {
+                    this.showSnackBar(error.response.data);
                 });
-
-            setTimeout(() => {
-                this.$router.push({ name: 'home' })
-            }, 1000);
         },
         showSnackBar(response) {
             this.snackbar = true;

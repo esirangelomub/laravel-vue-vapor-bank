@@ -16,7 +16,8 @@ class AuthController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->plainTextToken;
+            $scope = $request->scope ? [$request->scope] : ['customer-all'];
+            $success['token'] = $user->createToken('bnb-bank-token', $scope)->plainTextToken;
             $success['name'] = $user->name;
 
             return response()->json([
@@ -26,7 +27,7 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'data' => 'Unauthorised'
+                'message' => 'Unauthorised'
             ], 401);
         }
     }

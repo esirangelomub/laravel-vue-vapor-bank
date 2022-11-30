@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FileUploadRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class FileManagerController extends Controller
 {
-    public function upload(FileUploadRequest $request)
+    /**
+     * @param FileUploadRequest $request
+     * @return JsonResponse
+     */
+    public function upload(FileUploadRequest $request): JsonResponse
     {
         if ($request->file()) {
             $fileName = time() . '_' . $request->file->getClientOriginalName();

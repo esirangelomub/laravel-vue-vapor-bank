@@ -15,11 +15,15 @@ class ExpenseController extends Controller
      */
     public function index(): JsonResponse
     {
-        $Income = Expense::all();
+        if (app()->make('isAdmin')) {
+            $expenses = Expense::all();
+        } else {
+            $expenses = Expense::where(['accounts_id' => app()->make('getAccountId')])->get();
+        }
 
         return response()->json([
             'status' => true,
-            'data' => $Income
+            'data' => $expenses
         ]);
     }
 
@@ -31,12 +35,12 @@ class ExpenseController extends Controller
      */
     public function store(StoreExpenseRequest $request): JsonResponse
     {
-        $Income = Expense::query()->create($request->all());
+        $expense = Expense::query()->create($request->all());
 
         return response()->json([
             'status' => true,
             'message' => "Income Created successfully!",
-            'data' => $Income
+            'data' => $expense
         ], 200);
     }
 
@@ -48,11 +52,18 @@ class ExpenseController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $Income = Expense::query()->findOrFail($id);
+        if (app()->make('isAdmin')) {
+            $expense = Expense::query()->findOrFail($id);
+        } else {
+            $expense = Expense::where([
+                'accounts_id' => app()->make('getAccountId'),
+                'id' => $id
+            ])->first();
+        }
 
         return response()->json([
             'status' => true,
-            'data' => $Income
+            'data' => $expense
         ]);
     }
 
@@ -65,14 +76,14 @@ class ExpenseController extends Controller
      */
     public function update(StoreExpenseRequest $request, int $id): JsonResponse
     {
-        $Income = Expense::query()->findOrFail($id);
+        $expense = Expense::query()->findOrFail($id);
 
-        $Income->update($request->all());
+        $expense->update($request->all());
 
         return response()->json([
             'status' => true,
             'message' => "Income Updated successfully!",
-            'data' => $Income
+            'data' => $expense
         ]);
     }
 
@@ -84,9 +95,9 @@ class ExpenseController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $Income = Expense::query()->findOrFail($id);
+        $expense = Expense::query()->findOrFail($id);
 
-        $Income->delete();
+        $expense->delete();
 
         return response()->json([
             'status' => true,

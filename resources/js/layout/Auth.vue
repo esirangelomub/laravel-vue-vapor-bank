@@ -26,7 +26,7 @@ export default {
     computed: {
         isAdmin() {
             const route = useRoute();
-            const isAdmin = route.params.scope ?? false;
+            const isAdmin = route.params.scope === 'admin' ?? false;
             this.scope = isAdmin ? 'customer-all': 'admin-all'
             return isAdmin;
         }

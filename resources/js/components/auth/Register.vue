@@ -54,7 +54,7 @@
                :color="!this.isAdmin ? 'blue': 'green'"
                block
                flat
-               :to="!this.isAdmin ? '/auth_login': '/auth_login/admin'">
+               :to="!this.isAdmin ? '/auth_login/customer': '/auth_login/admin'">
             Already have an account?
         </v-btn>
     </v-form>
@@ -100,7 +100,7 @@ export default {
     computed: {
         isAdmin() {
             const route = useRoute();
-            const isAdmin = route.params.scope ?? false;
+            const isAdmin = route.params.scope === 'admin' ?? false;
             this.scope = !isAdmin ? 'customer-all': 'admin-all'
             this.account_types_id = !isAdmin ? 1 : 2
             return isAdmin;

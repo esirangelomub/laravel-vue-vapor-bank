@@ -55,7 +55,7 @@ export default {
         logout() {
             localStorage.removeItem('access_token');
             setTimeout(() => {
-                this.$router.push({ name: 'login' })
+                this.$router.push({ name: 'login', params: { scope: 'customer' } })
             }, 300);
         }
     }

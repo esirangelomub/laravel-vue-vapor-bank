@@ -14,7 +14,7 @@ import Approve from "./components/admin/Approve.vue";
 const routes = [
     {
         path: "/",
-        redirect: "/auth_register",
+        redirect: "/auth_register/customer",
         component: Auth,
         children: [
             {

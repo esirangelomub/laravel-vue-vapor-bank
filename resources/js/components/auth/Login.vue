@@ -42,7 +42,7 @@
         <v-btn variant="plain"
                :color="!this.isAdmin ? 'blue': 'green'"
                block
-               :to="!this.isAdmin ? '/auth_register': '/auth_register/admin'">
+               :to="!this.isAdmin ? '/auth_register/customer': '/auth_register/admin'">
             Do not have an account?
         </v-btn>
     </v-form>
@@ -84,7 +84,7 @@ export default {
     computed: {
         isAdmin() {
             const route = useRoute();
-            const isAdmin = route.params.scope ?? false;
+            const isAdmin = route.params.scope === 'admin' ?? false;
             this.scope = isAdmin ? 'customer-all': 'admin-all'
             return isAdmin;
         }

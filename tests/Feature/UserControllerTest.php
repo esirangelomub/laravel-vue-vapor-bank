@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserControllerTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
-
-    protected string $url = '/api/v1/user';
+    protected string $url = '/app/api/v1/user';
     /**
      * @var array<string>
      */
@@ -26,7 +24,7 @@ class UserControllerTest extends TestCase
      */
     public function testCreateUserReturnOk(): void
     {
-        $response = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+        $response = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'name' => $this->faker()->name,
             'email' => $this->faker()->email(),
             'password' => $this->faker()->password(8)
@@ -36,27 +34,27 @@ class UserControllerTest extends TestCase
 
     public function testCreateUserReturnFailNotPassPassword(): void
     {
-        $response = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+        $response = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'name' => $this->faker()->name,
             'email' => $this->faker()->email()
         ]);
-        $response->assertStatus(ResponseAlias::HTTP_BAD_REQUEST);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testListUserReturnOk(): void
     {
-        $response = $this->withHeaders($this->defaultHeaders)->getJson($this->url);
+        $response = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->getJson($this->url);
         $response->assertStatus(ResponseAlias::HTTP_OK);
     }
 
     public function testShowUserByIdReturnOk(): void
     {
-        $user = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+        $user = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'name' => $this->faker()->name,
             'email' => $this->faker()->email(),
             'password' => $this->faker()->password(8)
         ]);
-        $response = $this->withHeaders($this->defaultHeaders)->getJson($this->url . '/' . $user['data']['id']);
+        $response = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->getJson($this->url . '/' . $user['data']['id']);
         $response
             ->assertStatus(ResponseAlias::HTTP_OK)
             ->assertJson([
@@ -67,12 +65,12 @@ class UserControllerTest extends TestCase
 
     public function testUpdateUserByIdReturnOk(): void
     {
-        $user = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+        $user = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'name' => $this->faker()->name,
             'email' => $this->faker()->email(),
             'password' => $this->faker()->password(8)
         ]);
-        $response = $this->withHeaders($this->defaultHeaders)->putJson($this->url . '/' . $user['data']['id'], [
+        $response = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->putJson($this->url . '/' . $user['data']['id'], [
             'name' => $this->faker()->name,
             'password' => $this->faker()->password(8)
         ]);
@@ -84,7 +82,7 @@ class UserControllerTest extends TestCase
 
     public function testDeleteUserByIdReturnOk(): void
     {
-        $user = $this->withHeaders($this->defaultHeaders)->postJson($this->url, [
+        $user = $this->actingAs($this->getUser())->withHeaders($this->defaultHeaders)->postJson($this->url, [
             'name' => $this->faker()->name,
             'email' => $this->faker()->email(),
             'password' => $this->faker()->password(8)

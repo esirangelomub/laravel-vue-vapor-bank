@@ -24,8 +24,7 @@ class StoreExpenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'accounts_id' => 'integer|exists:accounts,id',
-            'expense_value' => 'decimal:2',
+            'expense_value' => 'numeric',
             'description' => 'string',
         ];
     }

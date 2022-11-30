@@ -17,6 +17,7 @@ class Income extends Model
      */
     protected $fillable = [
         'accounts_id',
+        'description',
         'deposit_value',
         'status',
         'deposit_voucher_path',
@@ -27,6 +28,7 @@ class Income extends Model
      */
     protected $casts = [
         'accounts_id' => 'integer',
+        'description' => 'string',
         'deposit_value' => 'decimal:2',
         'status' => 'string',
         'deposit_voucher_path' => 'string',
@@ -53,5 +55,13 @@ class Income extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function setAccountsIdAttribute($value)
+    {
+        if (empty($value)) {
+            $value = auth()->user()->load(['account'])->account->id ?? null;
+        }
+        $this->attributes['accounts_id'] = $value;
     }
 }

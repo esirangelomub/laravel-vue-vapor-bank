@@ -21,10 +21,10 @@ class FileUploadRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'file' => 'required|mimes:csv,txt,xlx,xls,pdf,jpg,jpeg|max:2048'
+
         ];
     }
 }

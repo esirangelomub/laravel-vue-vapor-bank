@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\AccountType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 
 class AccountTypesSeeder extends Seeder
@@ -16,9 +17,12 @@ class AccountTypesSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement("SET FOREIGN_KEY_CHECKS = 0;");
+        DB::statement("TRUNCATE TABLE account_types;");
+        DB::statement("SET FOREIGN_KEY_CHECKS = 1;");
         AccountType::query()->insert([
-            ['type' => Config::get('constants.USER_TYPES.CUSTOMER')],
-            ['type' => Config::get('constants.USER_TYPES.ADMIN')]
+            ['id' => 1, 'type' => Config::get('constants.USER_TYPES.CUSTOMER')],
+            ['id' => 2, 'type' => Config::get('constants.USER_TYPES.ADMIN')]
         ]);
     }
 }

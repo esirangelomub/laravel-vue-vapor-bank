@@ -7,6 +7,7 @@ return [
     ],
     'INCOMES_STATUS' => [
         'PENDING' => 'PENDING',
-        'APPROVED' => 'APPROVED'
+        'ACCEPTED' => 'ACCEPTED',
+        'REJECTED' => 'REJECTED'
     ]
 ];

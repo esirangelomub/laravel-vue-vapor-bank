@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAccountRequest;
 use App\Models\Account;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AccountController extends Controller
@@ -33,11 +35,18 @@ class AccountController extends Controller
     public function store(StoreAccountRequest $request): JsonResponse
     {
         $account = Account::query()->create($request->all());
+        $token = null;
+        if ($account) {
+            $user = User::find($account->users_id);
+            $scope = $request->scope ? [$request->scope] : ['customer-all'];
+            $token = $user->createToken('bnb-bank-token', $scope)->plainTextToken;
+        }
 
         return response()->json([
             'status' => true,
-            'message' => "Account Created successfully!",
-            'data' => $account
+            'message' => "Account Created successfully! You will be redirected to the Home",
+            'data' => $account,
+            'token' => $token
         ], ResponseAlias::HTTP_CREATED);
     }
 
@@ -47,7 +56,7 @@ class AccountController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 
@@ -64,7 +73,7 @@ class AccountController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(StoreAccountRequest $request, int $id): JsonResponse
+    public function update(StoreAccountRequest $request, string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 
@@ -83,7 +92,7 @@ class AccountController extends Controller
      * @param Account $account
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 

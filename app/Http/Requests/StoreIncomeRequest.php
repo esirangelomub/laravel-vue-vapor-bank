@@ -24,7 +24,7 @@ class StoreIncomeRequest extends FormRequest
     public function rules()
     {
         return [
-            'accounts_id' => 'sometimes|exists:accounts,id',
+            'description' => 'sometimes|string',
             'deposit_value' => 'sometimes',
             'status' => 'sometimes',
             'deposit_voucher_path' => 'sometimes',

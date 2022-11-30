@@ -14,15 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 Route::group(['prefix' => 'v1'], function()
 {
-    Route::resource('user', \App\Http\Controllers\UserController::class);
-    Route::resource('account', \App\Http\Controllers\AccountController::class);
-    Route::resource('income', \App\Http\Controllers\IncomeController::class);
-    Route::resource('expense', \App\Http\Controllers\ExpenseController::class);
-    Route::post('upload', [\App\Http\Controllers\FileManagerController::class, 'upload']);
+    Route::post('token', [\App\Http\Controllers\AuthController::class, 'token']);
+    Route::post('user', [\App\Http\Controllers\UserController::class, 'store']);
+    Route::post('account', [\App\Http\Controllers\AccountController::class, 'store']);
+    Route::resource('user', \App\Http\Controllers\UserController::class)
+        ->except(['store'])
+        ->middleware(['auth:sanctum', 'ability:customer-all, admin-all']);
+    Route::resource('account', \App\Http\Controllers\AccountController::class)
+        ->except(['store'])
+        ->middleware(['auth:sanctum', 'ability:customer-all, admin-all']);
+    Route::resource('income', \App\Http\Controllers\IncomeController::class)
+        ->middleware(['auth:sanctum', 'ability:customer-all, admin-all']);
+    Route::resource('expense', \App\Http\Controllers\ExpenseController::class)
+        ->middleware(['auth:sanctum', 'ability:customer-all, admin-all']);
+    Route::post('upload', [\App\Http\Controllers\FileManagerController::class, 'upload'])
+        ->middleware(['auth:sanctum', 'ability:customer-all, admin-all']);
 });

@@ -34,20 +34,30 @@ Install dependencies
   composer install --ignore-platform-reqs (Your local PHP < 8.0)
 ```
 
+Initialize docker with Sail
+
 ```bash
-  npm install
+  ./vendor/bin/sail up -d
+```
+For more information about sail access the documentation [here](https://laravel.com/docs/9.x/sail).
+
+Running migrations
+
+```bash
+  ./vendor/bin/sail artisan migrate --seed
 ```
 
-Initialize docker
+Install NPM dependencies from the container
 
 ```bash
-  sail up -d
+  ./vendor/bin/sail npm install
 ```
 
-Initialize application
+
+Initialize Front End application
 
 ```bash
-  sail npm run dev
+  ./vendor/bin/sail npm run dev
 ```
 
 Initial usage information
@@ -63,7 +73,36 @@ Access the routes and create a new account (as Customer or Admin).
 
 The password set for admin users is admin@123.
 
+## Deploy with Laravel Vapor
 
+Laravel Vapor is a serverless deployment platform for Laravel, powered by AWS. Launch your Laravel infrastructure on Vapor and fall in love with the scalable simplicity of serverless.
+
+After creating the Vapor account, follow the steps below to deploy this application.
+
+Initialize the Vapor service
+
+```bash
+./vendor/bin/vapor init
+```
+
+Log in to your account
+
+```bash
+./vendor/bin/vapor login
+```
+
+Create a MySQL database on the sail panel. Remember to use the database name bnb-bank, otherwise you will need to change the name of the database in the vapor.yml file. It should look like this:
+
+![alt text](https://github.com/esirangelomub/laravel-vue-vapor-bank/blob/main/mysql_vapor.png?raw=true)
+
+Once your database is available, run the deploy command:
+
+```bash
+./vendor/bin/vapor deploy production
+```
+
+This was just a brushstroke on Laravel Vapor.
+For more information about Vapor, access [https://vapor.laravel.com/](https://vapor.laravel.com/)
 ## Stack
 
 **Front-end:** Vue, Vuex, Vuetify
@@ -80,7 +119,7 @@ The password set for admin users is admin@123.
 To run the tests, run the following command
 
 ```bash
-  sail artisan test
+  ./vendor/bin/sail artisan test
 ```
 
 

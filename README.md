@@ -99,7 +99,7 @@ Log in to your account
 
 Create a MySQL database on the sail panel. Remember to use the database name bnb-bank, otherwise you will need to change the name of the database in the vapor.yml file. It should look like this:
 
-![alt text](https://github.com/esirangelomub/laravel-vue-vapor-bank/blob/main/mysql_vapor.png?raw=true)
+![alt text](https://raw.githubusercontent.com/esirangelomub/laravel-vue-vapor-bank/main/public/docs/mysql_vapor.png)
 
 Once your database is available, run the deploy command:
 

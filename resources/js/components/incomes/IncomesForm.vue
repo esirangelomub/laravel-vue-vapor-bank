@@ -180,6 +180,9 @@ export default {
                 .post('/income', income)
                 .then(response => {
                     this.showSnackBar(response.data)
+                    setTimeout(() => {
+                        this.$router.push({ name: !this.isAdmin ? 'home' : 'approve' })
+                    }, 1000)
                 })
                 .catch(error => {
                     this.showSnackBar(error.response.data)
@@ -189,7 +192,7 @@ export default {
             this.snackbar = true;
             this.message = response.message
             this.message_type = response.status ? 'blue' : 'pink'
-        }
+        },
     },
 }
 </script>

@@ -106,6 +106,9 @@ export default {
                 .post('/expense', expense)
                 .then(response => {
                     this.showSnackBar(response.data)
+                        setTimeout(() => {
+                            this.$router.push({name: 'home'})
+                        }, 1000)
                 })
                 .catch(error => {
                     this.showSnackBar(error.response.data)

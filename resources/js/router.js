@@ -12,15 +12,15 @@ import Main from "./layout/Main.vue";
 const routes = [
     {
         path: "/",
-        redirect: "/auth/register",
+        redirect: "/auth_register/:scope?",
         component: Auth,
         children: [
             {
-                path: "/auth/register",
+                path: "/auth_register/:scope?",
                 component: Register,
             },
             {
-                path: "/auth/login",
+                path: "/auth_login/:scope?",
                 name: "login",
                 component: Login,
             },

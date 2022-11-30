@@ -1,7 +1,7 @@
 <template>
     <v-app-bar
         class="box-shadow-none"
-        color="blue"
+        :color="!this.isAdmin ? 'blue': 'green'"
         height="200">
         <v-app-bar-title class="headline headline-bottom text-uppercase mr-4 text-center ">
             <strong>BNB</strong> Bank
@@ -20,8 +20,17 @@
     </v-main>
 </template>
 <script>
-export default {
+import {useRoute} from "vue-router/dist/vue-router";
 
+export default {
+    computed: {
+        isAdmin() {
+            const route = useRoute();
+            const isAdmin = route.params.scope ?? false;
+            this.scope = isAdmin ? 'customer-all': 'admin-all'
+            return isAdmin;
+        }
+    }
 };
 </script>
 

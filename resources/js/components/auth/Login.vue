@@ -1,5 +1,5 @@
 <template>
-    <h3 class="font-weight-medium text-blue mt-5 mb-5 text-uppercase w-100 text-center">
+    <h3 class="font-weight-medium mt-5 mb-5 text-uppercase w-100 text-center" :class="!this.isAdmin ? 'text-blue': 'text-green'">
         Login
     </h3>
     <v-form
@@ -8,7 +8,7 @@
         lazy-validation>
 
         <v-text-field
-            color="blue"
+            :color="!this.isAdmin ? 'blue': 'green'"
             label="Email"
             placeholder="Email"
             type="email"
@@ -19,7 +19,7 @@
         </v-text-field>
 
         <v-text-field
-            color="blue"
+            :color="!this.isAdmin ? 'blue': 'green'"
             label="Password"
             placeholder="Password"
             type="password"
@@ -32,17 +32,17 @@
         <v-btn
             class="my-3"
             block
-            color="blue"
-            @click="signIn()">
-            Login
+            :color="!this.isAdmin ? 'blue': 'green'"
+            @click="login()">
+            <span v-html="!this.isAdmin ? 'Login': 'Login Admin'"></span>
         </v-btn>
 
         <v-divider class="mt-10 mb-8"></v-divider>
 
         <v-btn variant="plain"
-               color="blue"
+               :color="!this.isAdmin ? 'blue': 'green'"
                block
-               flat to="/auth/register">
+               :to="!this.isAdmin ? '/auth_register': '/auth_register/admin'">
             Do not have an account?
         </v-btn>
     </v-form>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import axiosInstance from "../../plugins/axios";
+import {useRoute} from "vue-router/dist/vue-router";
 
 export default {
     data: () => ({
@@ -79,14 +79,23 @@ export default {
         passwordRules: [
             v => !!v || 'Password is required',
         ],
+        scope: 'customer-all'
     }),
+    computed: {
+        isAdmin() {
+            const route = useRoute();
+            const isAdmin = route.params.scope ?? false;
+            this.scope = isAdmin ? 'customer-all': 'admin-all'
+            return isAdmin;
+        }
+    },
     methods: {
-        signIn() {
+        login() {
             this.$axios
                 .post('/token', {
                     email: this.email,
                     password: this.password,
-                    scope: 'customer-all'
+                    scope: this.scope
                 })
                 .then(response => {
                     if (!response.data.data.token) {

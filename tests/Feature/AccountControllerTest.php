@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class AccountControllerTest extends TestCase
 {
-    protected string $url = '/api/v1/account';
+    protected string $url = '/app/api/v1/account';
     /**
      * @var array<string>
      */

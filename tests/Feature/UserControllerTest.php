@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserControllerTest extends TestCase
 {
-    protected string $url = '/api/v1/user';
+    protected string $url = '/app/api/v1/user';
     /**
      * @var array<string>
      */
@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase
             'name' => $this->faker()->name,
             'email' => $this->faker()->email()
         ]);
-        $response->assertStatus(ResponseAlias::HTTP_BAD_REQUEST);
+        $response->assertStatus(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testListUserReturnOk(): void

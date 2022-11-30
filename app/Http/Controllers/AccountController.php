@@ -56,7 +56,7 @@ class AccountController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 
@@ -73,7 +73,7 @@ class AccountController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(StoreAccountRequest $request, int $id): JsonResponse
+    public function update(StoreAccountRequest $request, string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 
@@ -92,7 +92,7 @@ class AccountController extends Controller
      * @param Account $account
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $any, int $id): JsonResponse
     {
         $account = Account::query()->findOrFail($id);
 

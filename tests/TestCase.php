@@ -23,7 +23,8 @@ abstract class TestCase extends BaseTestCase
         $this->user = User::query()->create([
             "name" => $this->faker()->name,
             "email" => $this->faker()->email,
-            "password" => $this->faker()->password(8)
+            "password" => $this->faker()->password(8),
+            "scope" => "customer-all"
         ]);
         return $this->user;
     }

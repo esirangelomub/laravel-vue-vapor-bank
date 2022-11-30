@@ -3,8 +3,14 @@
 
 A simplified banking system.
 
+## Dependencies
 
-
+```bash
+PHP 8.0+
+Node 16+
+NPM 8+
+Docker
+```
 
 ## Running Locally
 

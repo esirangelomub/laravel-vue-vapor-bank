@@ -11,7 +11,7 @@ A simplified banking system.
 Clone the project
 
 ```bash
-  git clone git@github.com:esirangelomub/laravel-vue-vapor-bank.git
+  git clone https://github.com/esirangelomub/laravel-vue-vapor-bank.git
 ```
 
 Access the project folder
@@ -24,6 +24,8 @@ Install dependencies
 
 ```bash
   composer install
+  or
+  composer install --ignore-platform-reqs (Your local PHP < 8.0)
 ```
 
 ```bash

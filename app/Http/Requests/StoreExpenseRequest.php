@@ -24,8 +24,8 @@ class StoreExpenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'expense_value' => 'numeric',
-            'description' => 'string',
+            'expense_value' => 'sometimes',
+            'description' => 'sometimes',
         ];
     }
 }

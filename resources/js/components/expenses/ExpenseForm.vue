@@ -20,7 +20,8 @@
                         placeholder="Amount"
                         v-model="expense_value"
                         :rules="expenseValueRules"
-                        prepend-icon="mdi-currency-usd">
+                        prepend-icon="mdi-currency-usd"
+                        v-money="money">
                         <template v-slot:append>
                             <span class="blue">USD</span>
                         </template>
@@ -28,7 +29,9 @@
 
                     <v-text-field
                         label="Date"
-                        placeholder="Date"
+                        placeholder="dd/mm/YYYY HH:MM"
+                        type="tel"
+                        v-mask="'##/##/#### ##:##'"
                         v-model="created_at"
                         :rules="createdAtRules"
                         prepend-icon="mdi-calendar">
@@ -70,6 +73,9 @@
 </template>
 
 <script>
+import {VMoney} from "v-money";
+import {mask} from 'vue-the-mask'
+
 export default {
     data: () => ({
         valid: true,
@@ -88,7 +94,17 @@ export default {
         descriptionValueRules: [
             v => !!v || 'Description is required',
         ],
+        money: {
+            decimal: ',',
+            thousands: '.',
+            prefix: '$',
+            masked: false /* doesn't work with directive */
+        }
     }),
+    directives: {
+        money: VMoney,
+        mask
+    },
     computed: {
         balance() {
             return 1234545

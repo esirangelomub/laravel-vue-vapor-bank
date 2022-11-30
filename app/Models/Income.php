@@ -64,4 +64,9 @@ class Income extends Model
         }
         $this->attributes['accounts_id'] = $value;
     }
+
+    public function setDepositValueAttribute($value)
+    {
+        $this->attributes['deposit_value'] = dec($value);
+    }
 }

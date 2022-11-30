@@ -16,8 +16,10 @@
     "dependencies": {
         "@mdi/font": "^7.0.96",
         "laravel-vapor": "^0.6.0",
+        "v-money": "^0.8.1",
         "vue": "^3.2.36",
         "vue-loader": "^17.0.1",
+        "vue-the-mask": "^0.11.1",
         "vue-upload-component": "^3.1.6",
         "vuetify": "^3.0.1",
         "vuex": "^4.0.2"

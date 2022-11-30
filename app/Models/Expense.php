@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ class Expense extends Model
         'accounts_id',
         'expense_value',
         'description',
+        'created_at'
     ];
 
     /**
@@ -27,7 +29,7 @@ class Expense extends Model
     protected $casts = [
         'accounts_id' => 'integer',
         'expense_value' => 'decimal:2',
-        'description' => 'string',
+        'description' => 'string'
     ];
 
     /**
@@ -58,5 +60,14 @@ class Expense extends Model
             $value = auth()->user()->load(['account'])->account->id ?? null;
         }
         $this->attributes['accounts_id'] = $value;
+    }
+
+    public function setExpenseValueAttribute($value)
+    {
+        $this->attributes['expense_value'] = dec($value);
+    }
+
+    public function setCreatedAtAttribute($value) {
+        $this->attributes['created_at'] = Carbon::createFromFormat('d/m/Y H:i', $value)->format('Y-m-d H:i:s');
     }
 }

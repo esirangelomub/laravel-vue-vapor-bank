@@ -5,6 +5,8 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import axiosInstance from "./plugins/axios";
 import VueUploadComponent from 'vue-upload-component'
+import money from 'v-money'
+import VueTheMask from 'vue-the-mask'
 
 const app = createApp(App)
 
@@ -26,8 +28,12 @@ app.config.globalProperties.$filters = {
     }
 }
 
-//FILE UPLOAD COMPONENT
+// FILE UPLOAD PLUGIN
 app.component('file-upload', VueUploadComponent)
+
+// MASK PLUGIN
+app.use(money, {precision: 2})
+app.use(VueTheMask)
 
 app.use(router).use(vuetify).mount("#app");
 

@@ -21,7 +21,8 @@
                         type="text"
                         v-model="deposit_value"
                         :rules="depositValueRules"
-                        prepend-icon="mdi-currency-usd">
+                        prepend-icon="mdi-currency-usd"
+                        v-money="money">
                         <template v-slot:append>
                             <span class="blue">USD</span>
                         </template>
@@ -127,6 +128,7 @@
 
 <script>
 import FileUpload from 'vue-upload-component'
+import {VMoney} from 'v-money'
 
 export default {
     data: () => ({
@@ -144,7 +146,14 @@ export default {
         ],
         deposit_voucher_path: '',
         files: [],
+        money: {
+            decimal: ',',
+            thousands: '.',
+            prefix: '$',
+            masked: false /* doesn't work with directive */
+        }
     }),
+    directives: {money: VMoney},
     components: {
         FileUpload
     },
